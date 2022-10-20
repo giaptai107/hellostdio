@@ -11,7 +11,7 @@ public class DemoApplication {
 
 	@GetMapping("/")
 	public String helloStdio() {
-		return "Xin chào Stdio";
+		return "Xin chào Stdio lần 2";
 	}
 
 	public static void main(String[] args) {
