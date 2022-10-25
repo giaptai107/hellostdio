@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    tools {
+        maven "Maven"
+    }
+
+    stages {
+        stage('Clone/Pull') {
+            steps {
+                sh 'if [ ! -d "hellostdio" ] ; then git clone https://github.com/giaptai107/hellostdio.git ' +
+                '\n else ' +
+                '\n cd hellostdio ' +
+                '\n git pull' +
+                '\n fi'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean install -Dmaven.test.skip=true -f hellostdio/pom.xml'
+            }
+        }
+        stage('Run') {
+            steps {
+                // sh 'pkill -f "java -jar"'
+                sh 'JENKINS_NODE_COOKIE=dontKillMe nohup java -jar hellostdio/target/demo-0.0.1-SNAPSHOT.jar &'
+            }
+        }
+    }
+}
+
